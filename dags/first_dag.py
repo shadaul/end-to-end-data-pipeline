@@ -1,6 +1,10 @@
 from airflow import DAG
 from airflow.operators.bash import BashOperator
 from datetime import datetime, timedelta 
+from airflow.operators.python import PythonOperator
+
+def my_first_func():
+    print("excelent")
 
 default_args = {
     'owner': 'Daulet',
@@ -22,6 +26,9 @@ with DAG(
         task_id = 'vro_zad',
         bash_command = 'date'
     )
+    task3 = PythonOperator(
+        task_id = 'python_task',
+        python_callable = my_first_func
+    )
 
-
-    task1 >>task2
+    task1 >> task2 >> task3
